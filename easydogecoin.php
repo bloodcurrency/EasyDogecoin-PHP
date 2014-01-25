@@ -1,9 +1,9 @@
 <?php
 /*
-EasyBitcoin-PHP
+EasyDogecoin-PHP
 
-A simple class for making calls to Bitcoin's API using PHP.
-https://github.com/aceat64/EasyBitcoin-PHP
+A simple class for making calls to Dogecoin's API using PHP.
+https://github.com/aceat64/EasyDogecoin-PHP
 
 ====================
 
@@ -31,35 +31,35 @@ THE SOFTWARE.
 
 ====================
 
-// Initialize Bitcoin connection/object
-$bitcoin = new Bitcoin('username','password');
+// Initialize Dogecoin connection/object
+$dogecoin = new Dogecoin('username','password');
 
 // Optionally, you can specify a host, port and protocol (HTTP and HTTPS).
-$bitcoin = new Bitcoin('username','password','host','port','http');
+$dogecoin = new Dogecoin('username','password','host','port','http');
 // Defaults are:
 //	host = localhost
 //	port = 8332
 //	proto = http
 
-// Make calls to bitcoind as methods for your object. Responses are returned as an array.
+// Make calls to dogecoind as methods for your object. Responses are returned as an array.
 // Examples:
-$bitcoin->getinfo();
-$bitcoin->getrawtransaction('0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098',1);
-$bitcoin->getblock('000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f');
+$dogecoin->getinfo();
+$dogecoin->getrawtransaction('0e3e2357e806b6cdb1f70b54c3a3a17b6714ee1f0e68bebb44a74b1efd512098',1);
+$dogecoin->getblock('000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f');
 
 // The full response (not usually needed) is stored in $this->response while the raw JSON is stored in $this->raw_response
 
 // When a call fails for any reason, it will return false and put the error message in $this->error
 // Example:
-echo $bitcoin->error;
+echo $dogecoin->error;
 
 // The HTTP status code can be found in $this->status and will either be a valid HTTP status code or will be 0 if cURL was unable to connect.
 // Example:
-echo $bitcoin->status;
+echo $dogecoin->status;
 
 */
 
-class Bitcoin {
+class Dogecoin {
 	// Configuration options
 	public $username;
 	public $password;
@@ -83,7 +83,7 @@ class Bitcoin {
 	 * @param string $proto
 	 * @param string $url
 	 */
-	function __construct($username, $password, $host = 'localhost', $port = 8332, $proto = 'http', $url = null) {
+	function __construct($username, $password, $host = 'localhost', $port = 22555, $proto = 'http', $url = null) {
 		$this->username = $username;
 		$this->password = $password;
 		$this->proto = $proto;
@@ -140,10 +140,10 @@ class Bitcoin {
 		}
 
 		if ($this->response['error']) {
-			// If bitcoind returned an error, put that in $this->error
+			// If dogecoind returned an error, put that in $this->error
 			$this->error = $this->response['error']['message'];
 		} elseif($this->status != 200) {
-			// If bitcoind didn't return a nice error message, we need to make our own
+			// If dogecoind didn't return a nice error message, we need to make our own
 			switch($this->status) {
 				case 400:
 					$this->error = 'HTTP_BAD_REQUEST';
